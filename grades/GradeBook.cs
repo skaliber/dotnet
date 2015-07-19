@@ -1,54 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
-namespace grades
+namespace Grades
 {
     public class GradeBook
-    {
-        public GradeBook()
+    {       
+        public GradeBook(string name = "There is no name")
         {
+            Console.WriteLine("gradebook ctor");
+            Name = name;
             _grades = new List<float>();
-            //i need to initialize the list in teh constructor because a constructor can parse data as well 
         }
+
         public void AddGrade(float grade)
         {
-            //scope of the class
-            //store the grade to be able to be use by another classes
-            //for this i created a list below and I add an element in the list wich is generic from the method
-
-            if (grade >= 0 && grade <= 100)
+            if (grade >= 0 && grade < 100)
             {
                 _grades.Add(grade);
             }
         }
 
-        public GradeStatistics ComputeStatistics()
+        public virtual GradeStatistics ComputeStatistics()
         {
+            Console.WriteLine("GradeBook Compute");
             GradeStatistics stats = new GradeStatistics();
+            
             float sum = 0f;
-
             foreach (float grade in _grades)
             {
                 stats.HighestGrade = Math.Max(grade, stats.HighestGrade);
                 stats.LowestGrade = Math.Min(grade, stats.LowestGrade);
-
-                sum = sum + grade;
-
-                stats.AverageGrade = sum / _grades.Count;
-
+                sum += grade;
             }
-
-            return stats;
             
+            stats.AverageGrade = sum / _grades.Count;
+            return stats;
         }
 
-        public string Name;
-        private List<float> _grades;
+        public void WriteGrades(TextWriter textWriter)
+        {
+            textWriter.WriteLine("Grades:");
+            
+            int i = 0;
+            do
+            {
+                textWriter.WriteLine(_grades[i]);
+                i++;
+            } while (i < _grades.Count);
 
 
-       
+            textWriter.WriteLine("*********");
+        }                       
+
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if (String.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException("Name cannot be null or empty");
+                }
+                if (_name != value)
+                {
+                    var oldValue = _name;
+                    _name = value;
+                    if (NameChanged != null)
+                    {
+                        NameChangedEventArgs args = new NameChangedEventArgs();
+                        args.OldValue = oldValue;
+                        args.NewValue = value;
+                        NameChanged(this, args);
+                    }
+                }
+                
+            }
+        }
+
+        public event NamedChangedDelegate NameChanged;
+
+        private string _name;
+        protected List<float> _grades;        
     }
 }
