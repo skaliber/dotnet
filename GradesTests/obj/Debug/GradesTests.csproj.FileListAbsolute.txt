@@ -1,0 +1,7 @@
+D:\workspace\dotNet\grades\GradesTests\bin\Debug\GradesTests.dll
+D:\workspace\dotNet\grades\GradesTests\bin\Debug\GradesTests.pdb
+D:\workspace\dotNet\grades\GradesTests\bin\Debug\grades.exe
+D:\workspace\dotNet\grades\GradesTests\bin\Debug\grades.pdb
+D:\workspace\dotNet\grades\GradesTests\obj\Debug\GradesTests.csprojResolveAssemblyReference.cache
+D:\workspace\dotNet\grades\GradesTests\obj\Debug\GradesTests.dll
+D:\workspace\dotNet\grades\GradesTests\obj\Debug\GradesTests.pdb
